@@ -4,15 +4,11 @@ const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const cors = require('cors');
 
-const { usersRouter, articlesRouter } = require('./routes');
-const { login, createUser, logout } = require('./controllers/users');
-const auth = require('./middlewares/auth');
+const router = require('./routes');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const NotFoundError = require('./errors/not-found-err');
 const { errorHandler } = require('./middlewares/errors-handler');
 const limiter = require('./helpers/limiter');
 
@@ -37,27 +33,7 @@ mongoose.connect(MONGO_URL, {
 
 app.use(requestLogger);
 
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }),
-}), login);
-
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }),
-}), createUser);
-
-app.post('/signout', auth, logout);
-app.use('/users', auth, usersRouter);
-app.use('/articles', auth, articlesRouter);
-app.use('*', () => {
-  throw new NotFoundError('Запрашиваемый ресурс не найден');
-});
+app.use(router);
 
 app.use(errorLogger);
 app.use(errors());
