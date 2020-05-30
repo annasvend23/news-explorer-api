@@ -13,6 +13,6 @@ I've implemented the creation of unique users, authentication, authorization. Al
 2. `npm inslall`;
 3. `npm run dev` - this would start server in watch mode;
 
-Production domain: *https://news-explorer.space/*;
-Production API: *https://api.news-explorer.space/*;
+Production domain: *http://news-explorer.space/*, *https://news-explorer.space/*;
+Production API: *http://api.news-explorer.space/*, *https://api.news-explorer.space/*;
 Public IP: 84.201.171.217;
