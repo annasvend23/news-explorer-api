@@ -5,7 +5,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
 
-const { NODE_ENV, JWT_SECRET, HOST } = require('../config/config');
+const { JWT_SECRET, HOST } = require('../config/config');
 const { MIN_PASSWORD_LENGTH } = require('../config/constants');
 
 const login = (req, res, next) => {
@@ -15,7 +15,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        JWT_SECRET,
         { expiresIn: '7d' },
       );
 
