@@ -6,7 +6,7 @@ const NotFoundError = require('../errors/not-found-err');
 
 const usersRouter = require('./users');
 const articlesRouter = require('./articles');
-const { login, createUser, logout } = require('./users');
+const { login, createUser, logout } = require('../controllers/users');
 
 router.use('/users', auth, usersRouter);
 router.use('/articles', auth, articlesRouter);

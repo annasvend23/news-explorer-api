@@ -10,8 +10,9 @@ I've implemented the creation of unique users, authentication, authorization. Al
 ### Setup
 
 1. git clone *https://github.com/annasvend23/news-explorer-api.git*;
-2. `npm inslall`;
-3. `npm run dev` - this would start server in watch mode;
+2. `npm install -g nodemon`;
+3. `npm install`;
+4. `npm run dev` - this would start server in watch mode;
 
 Production domain: *http://news-explorer.space/*, *https://news-explorer.space/*;
 Production API: *http://api.news-explorer.space/*, *https://api.news-explorer.space/*;
