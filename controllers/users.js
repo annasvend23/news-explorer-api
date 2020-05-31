@@ -4,9 +4,12 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const BadRequestError = require('../errors/bad-request-err');
+const ConflictError = require('../errors/conflict-err');
 
 const { JWT_SECRET, HOST } = require('../config/config');
-const { MIN_PASSWORD_LENGTH } = require('../config/constants');
+const {
+  MIN_PASSWORD_LENGTH, MIN_PASSWORD_LENGTH_ERROR, USER_WITH_SUCH_MAIL_EXIST, NO_SUCH_USER,
+} = require('../config/constants');
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -31,7 +34,7 @@ const login = (req, res, next) => {
           sameSite: true,
           domain: HOST,
         })
-        .send({});
+        .send({ data: 'OK' });
     })
     .catch(next);
 };
@@ -56,7 +59,7 @@ const createUser = (req, res, next) => {
   } = req.body;
 
   if (!password || password.length < MIN_PASSWORD_LENGTH) {
-    throw BadRequestError(`Минимальная длина пароля ${MIN_PASSWORD_LENGTH} символов`);
+    throw new BadRequestError(MIN_PASSWORD_LENGTH_ERROR(MIN_PASSWORD_LENGTH));
   }
 
   return bcrypt.hash(password, 10)
@@ -74,7 +77,7 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new BadRequestError('Пользователь с такой почтой уже есть в базе'));
+        return next(new ConflictError(USER_WITH_SUCH_MAIL_EXIST));
       }
       return next(err);
     });
@@ -88,7 +91,7 @@ const getUser = (req, res, next) => {
       if (user) {
         res.send({ data: { email: user.email, name: user.name } });
       } else {
-        throw new NotFoundError('Нет пользователя с таким id');
+        throw new NotFoundError(NO_SUCH_USER);
       }
     })
     .catch(next);

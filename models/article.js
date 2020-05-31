@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
+const { INVALID_LINK } = require('../config/constants');
+
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
@@ -27,7 +29,7 @@ const articleSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => validator.isURL(value),
-      message: (props) => `${props.value} - невалидная ссылка`,
+      message: (props) => `${props.value} - ${INVALID_LINK}`,
     },
   },
   image: {
@@ -35,7 +37,7 @@ const articleSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (value) => validator.isURL(value),
-      message: (props) => `${props.value} - невалидная ссылка`,
+      message: (props) => `${props.value} - ${INVALID_LINK}`,
     },
   },
   owner: {

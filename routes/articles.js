@@ -22,7 +22,7 @@ router.post('/', celebrate({
 
 router.delete('/:articleId', celebrate({
   params: Joi.object().keys({
-    articleId: Joi.string().alphanum().length(24),
+    articleId: Joi.string().regex(/^[0-9a-fA-F]{24}$/, 'invalid ID'),
   }),
 }), deleteArticle);
 

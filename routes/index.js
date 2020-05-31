@@ -3,6 +3,7 @@ const { celebrate, Joi } = require('celebrate');
 
 const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/not-found-err');
+const { NOT_FOUND_ERROR } = require('../config/constants');
 
 const usersRouter = require('./users');
 const articlesRouter = require('./articles');
@@ -28,7 +29,7 @@ router.post('/signup', celebrate({
 
 router.post('/signout', auth, logout);
 router.use('*', () => {
-  throw new NotFoundError('Запрашиваемый ресурс не найден');
+  throw new NotFoundError(NOT_FOUND_ERROR);
 });
 
 module.exports = router;

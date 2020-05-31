@@ -1,6 +1,7 @@
 const Article = require('../models/article');
 const NotFoundError = require('../errors/not-found-err');
 const ForbiddenError = require('../errors/forbidden-err');
+const { NO_SUCH_ARTICLE, NO_RIGHTS_TO_DELETE_ARTICLE } = require('../config/constants');
 
 const getArticles = (req, res, next) => {
   const user = req.user._id;
@@ -29,10 +30,10 @@ const deleteArticle = (req, res, next) => {
   Article.findById(req.params.articleId).select('+owner')
     .then((article) => {
       if (!article) {
-        throw new NotFoundError('Нет статьи с таким id');
+        throw new NotFoundError(NO_SUCH_ARTICLE);
       }
       if (!article.owner.equals(user)) {
-        throw new ForbiddenError('Вы не можете удалить эту статью');
+        throw new ForbiddenError(NO_RIGHTS_TO_DELETE_ARTICLE);
       }
       return Article.deleteOne({ _id: req.params.articleId })
         .then(() => res.send({ data: article }));
