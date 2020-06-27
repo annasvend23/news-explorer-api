@@ -16,7 +16,7 @@ const { FRONTEND_HOST, PORT, MONGO_URL } = require('./config/config');
 
 const app = express();
 
-app.use(cors({ credentials: true, origin: [`http://${FRONTEND_HOST}`, `https://${FRONTEND_HOST}`] }));
+app.use(cors({ credentials: true, origin: [`http://${FRONTEND_HOST}`, `https://${FRONTEND_HOST}`, 'https://annasvend23.github.io'] }));
 app.use(helmet());
 app.use(cookieParser());
 
