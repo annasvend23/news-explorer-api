@@ -16,4 +16,3 @@ I've implemented the creation of unique users, authentication, authorization. Al
 
 Production domain: *http://news-explorer.space/*, *https://news-explorer.space/*;
 Production API: *http://api.news-explorer.space/*, *https://api.news-explorer.space/*;
-Public IP: 84.201.171.217;

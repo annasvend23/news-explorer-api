@@ -7,6 +7,7 @@ const { NOT_FOUND_ERROR } = require('../config/constants');
 
 const usersRouter = require('./users');
 const articlesRouter = require('./articles');
+const newsRouter = require('./news-api');
 const { login, createUser, logout } = require('../controllers/users');
 
 router.use('/users', auth, usersRouter);
@@ -28,6 +29,9 @@ router.post('/signup', celebrate({
 }), createUser);
 
 router.post('/signout', auth, logout);
+
+router.use('/news-api', newsRouter);
+
 router.use('*', () => {
   throw new NotFoundError(NOT_FOUND_ERROR);
 });
